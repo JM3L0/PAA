@@ -47,7 +47,6 @@ def medir_tempo(arquivos, pasta_resultados="Trabalho 1/resultados"):
             f.write(f"{arq}\t{q}\t{t:.6f}\n")
     print(f"\nResultados salvos em '{pasta_resultados}/tempos_binary_insertion_sort.txt'")
 
-# --- USO ---
 arquivos = [f"Trabalho 1/entradas/{tipo}_{n}.txt" 
             for tipo in ["crescente", "decrescente", "aleatorio"] 
             for n in [1,2,4]]
