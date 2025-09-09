@@ -16,30 +16,52 @@ def ler_numeros(caminho):
         print(f"Arquivo não encontrado: {caminho}")
         return []
 
-def medir_tempo(arquivos, pasta_resultados="Trabalho 1/resultados"):
+def medir_tempo(arquivos, pasta_resultados="Trabalho 1/resultados", repeticoes=30):
     os.makedirs(pasta_resultados, exist_ok=True)
     resultados = []
 
-    for arq in arquivos:
-        nums = ler_numeros(arq)
-        if not nums: continue
-        tam = len(nums)
-        
-        inicio = time.time()
-        insertion_sort(nums, tam)
-        tempo = time.time() - inicio
-        
-        resultados.append((arq, tam, tempo))
-        print(f"{arq}: {tempo:.6f} s")
+    # Cabeçalho da tabela no console
+    print("=" * 80)
+    print(f"{'Arquivo':<45} {'Qtd. Números':<15} {'Tempo Médio (s)':<15}")
+    print("=" * 80)
 
-    with open(os.path.join(pasta_resultados, "tempos_insertion_sort.txt"), "w") as f:
-        f.write("Arquivo\tQuantidade\tTempo(s)\n")
-        for arq, q, t in resultados:
-            f.write(f"{arq}\t{q}\t{t:.6f}\n")
+    for arq in arquivos:
+        nums_orig = ler_numeros(arq)
+        if not nums_orig:
+            continue
+        tam = len(nums_orig)
+
+        tempos = []
+        for _ in range(repeticoes):
+            nums = nums_orig.copy()
+            inicio = time.time()
+            insertion_sort(nums, tam)
+            fim = time.time()
+            tempos.append(fim - inicio)
+
+        tempo_medio = sum(tempos) / repeticoes
+        resultados.append((arq, tam, tempo_medio))
+
+        # Exibir no console
+        print(f"{arq:<45} {tam:<15} {tempo_medio:<15.6f}")
+
+    print("=" * 80)
     print(f"\nResultados salvos em '{pasta_resultados}/tempos_insertion_sort.txt'")
 
-arquivos = [f"Trabalho 1/entradas/{tipo}_{n}.txt" 
-            for tipo in ["crescente", "decrescente", "aleatorio"] 
-            for n in [1,2,4]]
+    # Salvar no arquivo de forma formatada
+    resultado_arquivo = os.path.join(pasta_resultados, "tempos_insertion_sort.txt")
+    with open(resultado_arquivo, "w") as f:
+        f.write("=" * 80 + "\n")
+        f.write(f"{'Arquivo':<45} {'Qtd. Números':<15} {'Tempo Médio (s)':<15}\n")
+        f.write("=" * 80 + "\n")
+        for arq, q, t in resultados:
+            f.write(f"{arq:<45} {q:<15} {t:<15.6f}\n")
+        f.write("=" * 80 + "\n")
 
-medir_tempo(arquivos)
+# Lista automática dos arquivos
+arquivos = [f"Trabalho 1/entradas/{tipo}_{n}.txt"
+            for tipo in ["crescente", "decrescente", "aleatorio"]
+            for n in [1, 2, 4]]
+
+# Executa os testes 30 vezes
+medir_tempo(arquivos, repeticoes=30)
