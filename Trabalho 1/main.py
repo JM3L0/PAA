@@ -5,7 +5,7 @@ from gerador_de_entradas.gerrador import gerar_entradas
 
 def main():
     # Gerar entradas
-    gerar_entradas(tamanho_base=1000)
+    gerar_entradas(tamanho_base=10000)
     
     # Número de repetições definido em UM único lugar
     repeticoes = 30

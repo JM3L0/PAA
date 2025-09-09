@@ -1,13 +1,13 @@
 ================================================================================
 Arquivo (30 Exe.)                   Qtd. Números    Tempo Médio (s)
 ================================================================================
-Trabalho 1/entradas/crescente_1.txt           1000            0.000219       
-Trabalho 1/entradas/crescente_2.txt           2000            0.000414       
-Trabalho 1/entradas/crescente_4.txt           4000            0.000744       
-Trabalho 1/entradas/decrescente_1.txt         1000            0.046570       
-Trabalho 1/entradas/decrescente_2.txt         2000            0.134393       
-Trabalho 1/entradas/decrescente_4.txt         4000            0.526947       
-Trabalho 1/entradas/aleatorio_1.txt           1000            0.016720       
-Trabalho 1/entradas/aleatorio_2.txt           2000            0.067218       
-Trabalho 1/entradas/aleatorio_4.txt           4000            0.270394       
+Trabalho 1/entradas/crescente_1.txt           10000           0.001735       
+Trabalho 1/entradas/crescente_2.txt           20000           0.002587       
+Trabalho 1/entradas/crescente_4.txt           40000           0.005877       
+Trabalho 1/entradas/decrescente_1.txt         10000           3.426925       
+Trabalho 1/entradas/decrescente_2.txt         20000           13.790983      
+Trabalho 1/entradas/decrescente_4.txt         40000           56.202691      
+Trabalho 1/entradas/aleatorio_1.txt           10000           1.719125       
+Trabalho 1/entradas/aleatorio_2.txt           20000           6.982652       
+Trabalho 1/entradas/aleatorio_4.txt           40000           29.959574      
 ================================================================================
