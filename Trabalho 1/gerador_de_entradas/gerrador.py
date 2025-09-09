@@ -33,10 +33,13 @@ def gerar_numeros_e_salvar(inicio, quantidade, modo, nome_arquivo="numeros.txt")
         print(f"Erro ao salvar o arquivo: {e}")
 
 # --- EXEMPLO DE USO ---
-primeira_quantidade = int(input("Digite a quantidade base de números: "))
-modos = ["crescente", "decrescente", "aleatorio"]
+#primeira_quantidade = int(input("Digite a quantidade base de números: "))
+#modos = ["crescente", "decrescente", "aleatorio"]
 
-for modo in modos:
-    gerar_numeros_e_salvar(1, primeira_quantidade, modo, f"Trabalho 1/entradas/{modo}_1.txt")
-    gerar_numeros_e_salvar(1, primeira_quantidade * 2, modo, f"Trabalho 1/entradas/{modo}_2.txt")
-    gerar_numeros_e_salvar(1, primeira_quantidade * 4, modo, f"Trabalho 1/entradas/{modo}_4.txt")
+def gerar_entradas(tamanho_base):
+    primeira_quantidade = tamanho_base
+    modos = ["crescente", "decrescente", "aleatorio"]
+    for modo in modos:
+        gerar_numeros_e_salvar(1, primeira_quantidade, modo, f"Trabalho 1/entradas/{modo}_1.txt")
+        gerar_numeros_e_salvar(1, primeira_quantidade * 2, modo, f"Trabalho 1/entradas/{modo}_2.txt")
+        gerar_numeros_e_salvar(1, primeira_quantidade * 4, modo, f"Trabalho 1/entradas/{modo}_4.txt")
