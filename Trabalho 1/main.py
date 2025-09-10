@@ -1,11 +1,11 @@
 from scr.utils import medir_tempo
-from scr.inserction import insertion_sort
-from scr.inserctionBinary import binary_insertion_sort
+from scr.insertion import insertion_sort
+from scr.insertionBinary import binary_insertion_sort
 from gerador_de_entradas.gerrador import gerar_entradas
 
 def main():
     # Gerar entradas
-    gerar_entradas(tamanho_base=10000)
+    gerar_entradas(tamanho_base=1250)
     
     # Número de repetições definido em UM único lugar
     repeticoes = 30
