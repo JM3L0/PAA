@@ -43,19 +43,28 @@ def plotar(dados, tipo_algo):
     # Debug: Mostra informações do DataFrame
     print(f"\nInformações do DataFrame para {nome}:")
     print(f"Colunas: {list(df.columns)}")
-    print(f"Primeiras linhas:\n{df.head()}")
+    print(f"Shape: {df.shape}")
+    print(f"DataFrame completo:\n{df}")
     
     # Configuração do gráfico
     plt.figure(figsize=(12, 8))
     
-    # Verifica se existe coluna 'tamanho' ou similar
+    # Busca mais robusta pela coluna de tamanhos
     coluna_tamanho = None
+    possíveis_nomes = ['tamanho', 'size', 'n', 'tam', 'entrada', 'input']
+    
     for col in df.columns:
-        if 'tamanho' in col.lower() or 'size' in col.lower() or 'n' == col.lower():
+        col_lower = col.lower()
+        if any(nome in col_lower for nome in possíveis_nomes):
             coluna_tamanho = col
             break
     
-    if coluna_tamanho:
+    # Se não encontrou, usa a primeira coluna (assumindo que seja tamanho)
+    if coluna_tamanho is None and len(df.columns) > 0:
+        coluna_tamanho = df.columns[0]
+        print(f"Usando primeira coluna '{coluna_tamanho}' como tamanho")
+    
+    if coluna_tamanho and coluna_tamanho in df.columns:
         tamanhos = df[coluna_tamanho]
         print(f"Usando coluna '{coluna_tamanho}' para tamanhos: {list(tamanhos)}")
     else:
@@ -67,8 +76,19 @@ def plotar(dados, tipo_algo):
     for tipo, cor in tipos_cores:
         coluna = encontrar_coluna(df, tipo)
         if coluna:
+            tempos = df[coluna]
             print(f"Plotando {tipo} usando coluna '{coluna}'")
-            plt.plot(tamanhos, df[coluna], marker='o', linewidth=3, markersize=6, 
+            print(f"Valores de tempo para {tipo}: {list(tempos)}")
+            print(f"Tamanhos originais: {list(tamanhos)}")
+            
+            # Adiciona ponto inicial (0, 0) para mostrar que começa do zero
+            tamanhos_completos = [0] + list(tamanhos)
+            tempos_completos = [0] + list(tempos)
+            
+            print(f"Tamanhos com ponto inicial: {tamanhos_completos}")
+            print(f"Tempos com ponto inicial: {tempos_completos}")
+            
+            plt.plot(tamanhos_completos, tempos_completos, marker='o', linewidth=3, markersize=6, 
                     label=f'Entrada {tipo.capitalize()}', color=cor)
         else:
             print(f"Coluna para {tipo} não encontrada")
@@ -79,6 +99,11 @@ def plotar(dados, tipo_algo):
     plt.title(f'Análise de Performance - {nome}', fontsize=16)
     plt.grid(True, alpha=0.7, linestyle='-', linewidth=0.8, color='black')
     plt.legend(fontsize=12)
+    
+    # Configura ticks do eixo X de 5000 em 5000
+    import numpy as np
+    ticks_x = np.arange(0, 45000, 5000)  # De 0 a 45000 de 5000 em 5000
+    plt.xticks(ticks_x, [f'{x:,}' if x > 0 else '0' for x in ticks_x])
     
     if plt.gca().get_ylim()[1] > 1000:
         plt.yscale('log')
