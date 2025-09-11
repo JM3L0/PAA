@@ -15,4 +15,3 @@ def binary_insertion_sort(arr, tam):
             arr[j] = arr[j-1]
         arr[pos] = chave
     return arr
-

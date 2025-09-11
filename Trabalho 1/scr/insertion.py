@@ -6,6 +6,3 @@ def insertion_sort(arr, tam):
             j -= 1
         arr[j + 1] = chave
     return arr
-
-
-
