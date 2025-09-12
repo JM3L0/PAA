@@ -41,17 +41,17 @@ def generate_data():
 def plot_both(n_values, insertion_best, insertion_worst, binary_best, binary_worst):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
     # Insertion Sort
-    ax1.plot(n_values, insertion_best, label="Melhor Caso (O(n))", color="green")
+    ax1.plot(n_values, insertion_best, label="Melhor Caso (Ω(n))", color="green")
     ax1.plot(n_values, insertion_worst, label="Pior Caso (O(n²))", color="red")
-    ax1.set_title("Insertion Sort: Custo Total")
+    ax1.set_title("Insertion Sort: Custo Total (Comparações + Atribuições)")
     ax1.set_xlabel("Tamanho do Array (n)")
     ax1.set_ylabel("Número de Operações")
     ax1.legend()
     ax1.grid(True)
     # Binary Insertion Sort
-    ax2.plot(n_values, binary_best, label="Melhor Caso (O(n log n))", color="green")
+    ax2.plot(n_values, binary_best, label="Melhor Caso (Ω(n log n))", color="green")
     ax2.plot(n_values, binary_worst, label="Pior Caso (O(n²))", color="red")
-    ax2.set_title("Binary Insertion Sort: Custo Total")
+    ax2.set_title("Binary Insertion Sort: Custo Total (Comparações + Atribuições)")
     ax2.set_xlabel("Tamanho do Array (n)")
     ax2.set_ylabel("Número de Operações")
     ax2.legend()
@@ -62,9 +62,9 @@ def plot_both(n_values, insertion_best, insertion_worst, binary_best, binary_wor
 # Função para plotar apenas Insertion Sort
 def plot_insertion(n_values, insertion_best, insertion_worst):
     fig, ax = plt.subplots(figsize=(6, 5))
-    ax.plot(n_values, insertion_best, label="Melhor Caso (O(n))", color="green")
+    ax.plot(n_values, insertion_best, label="Melhor Caso (Ω(n))", color="green")
     ax.plot(n_values, insertion_worst, label="Pior Caso (O(n²))", color="red")
-    ax.set_title("Insertion Sort: Custo Total")
+    ax.set_title("Insertion Sort: Custo Total (Comparações + Atribuições)")
     ax.set_xlabel("Tamanho do Array (n)")
     ax.set_ylabel("Número de Operações")
     ax.legend()
@@ -75,9 +75,9 @@ def plot_insertion(n_values, insertion_best, insertion_worst):
 # Função para plotar apenas Binary Insertion Sort
 def plot_binary(n_values, binary_best, binary_worst):
     fig, ax = plt.subplots(figsize=(6, 5))
-    ax.plot(n_values, binary_best, label="Melhor Caso (O(n log n))", color="green")
+    ax.plot(n_values, binary_best, label="Melhor Caso (Ω(n log n))", color="green")
     ax.plot(n_values, binary_worst, label="Pior Caso (O(n²))", color="red")
-    ax.set_title("Binary Insertion Sort: Custo Total")
+    ax.set_title("Binary Insertion Sort: Custo Total (Comparações + Atribuições)")
     ax.set_xlabel("Tamanho do Array (n)")
     ax.set_ylabel("Número de Operações")
     ax.legend()
