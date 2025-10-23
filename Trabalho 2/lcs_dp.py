@@ -6,14 +6,13 @@ def lcs_dp(X, Y):
     n = len(Y)
     
     # Criar a tabela L (comprimentos)
-    L = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+    L = [[0 for _ in range(n + 1)] for _ in range(m + 1)]# Inicializa a tabela com zeros
     
     # Preencher a tabela L
     for i in range(1, m + 1):
         for j in range(1, n + 1):
             
             if X[i-1] == Y[j-1]:
-                # L[i, j] = L[i-1, j-1] + 1 
                 L[i][j] = L[i-1][j-1] + 1
             else:
                 L[i][j] = max(L[i-1][j], L[i][j-1])
@@ -25,7 +24,7 @@ def lcs_reconstroi_string(X, Y, L):
     i = len(X)
     j = len(Y)
 
-    lcs_result = deque()
+    lcs_result = deque()#lista duplamente encadeada para construir a LCS
 
     # Percorre a tabela L de trás para frente
     while i > 0 and j > 0:
@@ -44,8 +43,7 @@ def lcs_reconstroi_string(X, Y, L):
         else:
             j -= 1
     
-    # A string foi construída em ordem inversa, então inverte
-    return "".join(reversed(lcs_result))
+    return "".join(lcs_result)
 
 def printar_tabela(L):
     for row in L:
