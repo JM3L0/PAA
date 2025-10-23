@@ -1,10 +1,7 @@
 from collections import deque
 
 def lcs_dp(X, Y):
-    """
-    Calcula o comprimento da LCS de X e Y usando Programação Dinâmica (bottom-up)
-    e retorna a tabela completa de comprimentos (L).
-    """
+
     m = len(X)
     n = len(Y)
     
@@ -19,25 +16,12 @@ def lcs_dp(X, Y):
                 # L[i, j] = L[i-1, j-1] + 1 
                 L[i][j] = L[i-1][j-1] + 1
             else:
-                # L[i, j] = max(L[i-1, j], L[i, j-1])
                 L[i][j] = max(L[i-1][j], L[i][j-1])
                 
-                
-    # Retorna a tabela COMPLETA, necessária para a reconstrução
     return L
 
 def lcs_reconstroi_string(X, Y, L):
-    """
-    Reconstrói a subsequência comum mais longa (LCS) a partir da tabela L.
-    
-    Args:
-        X: primeira string
-        Y: segunda string
-        L: tabela de comprimentos retornada por lcs_dp_retorna_tabela
-    
-    Returns:
-        string com a LCS reconstruída
-    """
+
     i = len(X)
     j = len(Y)
 
@@ -64,8 +48,5 @@ def lcs_reconstroi_string(X, Y, L):
     return "".join(reversed(lcs_result))
 
 def printar_tabela(L):
-    """
-    Função auxiliar para imprimir a tabela L de forma legível.
-    """
     for row in L:
         print("\t".join(map(str, row)))
