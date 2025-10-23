@@ -1,8 +1,5 @@
 def lcs_recursive(X, Y, m, n): #aqui é para retornar a string da LCS
-    """
-    Calcula a LCS dos prefixos X[1..m] e Y[1..n] de forma recursiva.
-    Retorna a string da LCS encontrada.
-    """
+    
     # Caso base: Se um dos prefixos for vazio, a LCS é vazia.
     if m == 0 or n == 0:
         return ""
