@@ -1,9 +1,5 @@
-cont_calls = 0
-
 def lcs_recursive(X, Y, m, n): #aqui é para retornar a string da LCS
-    global cont_calls
-    cont_calls += 1
-    print(f"Chamada recursiva {cont_calls}")
+
     # Caso base: Se um dos prefixos for vazio, a LCS é vazia.
     if m == 0 or n == 0:
         return ""
