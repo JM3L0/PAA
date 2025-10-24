@@ -10,8 +10,8 @@ import inspect
 import sys
 import os
 
-RESULT_FILE = os.path.join(os.path.dirname(__file__), "resultados_lcs.csv")
-MAX_RECURSIVO = 13  # Limite para executar versão recursiva
+RESULT_FILE = os.path.join(os.path.dirname(__file__), "resultados", "tabela_de_resultados_lcs.csv")
+MAX_RECURSIVO = 10  # Limite para executar versão recursiva
 
 
 # ========================
