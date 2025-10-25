@@ -189,6 +189,33 @@ def plotar_razao_crescimento_rec(df):
     print("✅ Gráfico '10_razao_crescimento_rec.png' salvo")
     plt.close()
 
+def plotar_comparacao_tempo_dp_vs_rec(df):
+    """Plota comparação unificada de tempo DP vs Recursivo."""
+    df_com_rec = df[df['Tempo Rec (s)'] != 'N/A'].copy()
+    
+    if df_com_rec.empty:
+        print("⚠️ Sem dados: Comparação DP vs Rec")
+        return
+    
+    df_com_rec['Tempo Rec (s)'] = df_com_rec['Tempo Rec (s)'].astype(float)
+    df_com_rec['Tempo DP (s)'] = df_com_rec['Tempo DP (s)'].astype(float)
+    
+    plt.figure(figsize=(12, 7))
+    plt.plot(df_com_rec['Tamanho'], df_com_rec['Tempo DP (s)'], 
+             marker='o', linewidth=2.5, label='DP', color='blue')
+    plt.plot(df_com_rec['Tamanho'], df_com_rec['Tempo Rec (s)'], 
+             marker='s', linewidth=2.5, label='Recursivo', color='red')
+    
+    plt.xlabel('Tamanho da String', fontsize=12, fontweight='bold')
+    plt.ylabel('Tempo (segundos)', fontsize=12, fontweight='bold')
+    plt.title('Comparação de Tempo: DP vs Recursivo', fontsize=14, fontweight='bold')
+    plt.legend(fontsize=11, loc='upper left')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(os.path.join(GRAFICOS_DIR, "11_comparacao_tempo_dp_vs_rec.png"), dpi=300)
+    print("✅ Gráfico '11_comparacao_tempo_dp_vs_rec.png' salvo")
+    plt.close()
+
 
 # ========================
 # EXECUÇÃO PRINCIPAL
@@ -216,6 +243,7 @@ def plotar_todos_graficos():
     plotar_memoria_rec(df)
     plotar_chamadas_rec(df)
     plotar_razao_crescimento_rec(df)
+    plotar_comparacao_tempo_dp_vs_rec(df)
     
     print("\n✅ Todos os gráficos foram gerados com sucesso!")
 
