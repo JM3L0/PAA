@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-RESULT_FILE = os.path.join(os.path.dirname(__file__), "resultados", "tabela_de_resultados_lcs.csv")
-GRAFICOS_DIR = os.path.join(os.path.dirname(__file__), "resultados", "graficos")
+RESULT_FILE = os.path.join(os.path.dirname(__file__), "tabela_de_resultados_lcs.csv")
+GRAFICOS_DIR = os.path.join(os.path.dirname(__file__), "graficos")
 
 
 # ========================

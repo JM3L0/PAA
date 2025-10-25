@@ -1,7 +1,5 @@
 import time
 import tracemalloc
-import lcs_dp
-import lcs_recursive
 import csv
 import random
 import string
@@ -10,8 +8,13 @@ import inspect
 import sys
 import os
 
-RESULT_FILE = os.path.join(os.path.dirname(__file__), "resultados", "tabela_de_resultados_lcs.csv")
-MAX_RECURSIVO = 17  # Limite para executar versão recursiva
+# Adiciona a pasta pai ao path para importar os módulos
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import lcs_dp
+import lcs_recursive
+
+RESULT_FILE = os.path.join(os.path.dirname(__file__),"tabela_de_resultados_lcs.csv")
+MAX_RECURSIVO = 10  # Limite para executar versão recursiva
 
 
 # ========================
