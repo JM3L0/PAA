@@ -19,3 +19,18 @@ def lcs_recursive(X, Y, m, n, depth=1):  # Adicionamos o parâmetro 'depth'
     lcs1 = lcs_recursive(X, Y, m, n - 1, depth + 1)
     lcs2 = lcs_recursive(X, Y, m - 1, n, depth + 1)
     return lcs1 if len(lcs1) > len(lcs2) else lcs2
+
+
+# def lcs_recursive(X, Y, m, n):
+#     # Caso base
+#     if m == 0 or n == 0:
+#         return ""
+
+#     # Se os últimos caracteres forem iguais
+#     if X[m - 1] == Y[n - 1]:
+#         return lcs_recursive(X, Y, m - 1, n - 1) + X[m - 1]
+
+#     # Se forem diferentes, escolher o maior resultado
+#     lcs1 = lcs_recursive(X, Y, m, n - 1)
+#     lcs2 = lcs_recursive(X, Y, m - 1, n)
+#     return lcs1 if len(lcs1) > len(lcs2) else lcs2

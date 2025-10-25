@@ -6,7 +6,8 @@ def lcs_dp(X, Y):
     n = len(Y)
     
     # Criar a tabela L (comprimentos)
-    L = [[0 for _ in range(n + 1)] for _ in range(m + 1)]# Inicializa a tabela com zeros
+    # Inicializa a tabela com zeros
+    L = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
     
     # Preencher a tabela L
     for i in range(1, m + 1):
@@ -24,7 +25,7 @@ def lcs_reconstroi_string(X, Y, L):
     i = len(X)
     j = len(Y)
 
-    lcs_result = deque()#lista duplamente encadeada para construir a LCS
+    lcs_result = deque()
 
     # Percorre a tabela L de trás para frente
     while i > 0 and j > 0:
