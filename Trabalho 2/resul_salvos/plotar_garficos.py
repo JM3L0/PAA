@@ -217,6 +217,62 @@ def plotar_comparacao_tempo_dp_vs_rec(df):
     plt.close()
 
 
+def plotar_comparacao_tempo_dp_vs_rec_limitado(df):
+    """Plota comparação unificada de tempo DP vs Recursivo (primeiras 17 linhas)."""
+    df_limitado = df.iloc[:17].copy()
+    df_com_rec = df_limitado[df_limitado['Tempo Rec (s)'] != 'N/A'].copy()
+    
+    if df_com_rec.empty:
+        print("⚠️ Sem dados: Comparação DP vs Rec (limitado)")
+        return
+    
+    df_com_rec['Tempo Rec (s)'] = df_com_rec['Tempo Rec (s)'].astype(float)
+    df_com_rec['Tempo DP (s)'] = df_com_rec['Tempo DP (s)'].astype(float)
+    
+    plt.figure(figsize=(12, 7))
+    plt.plot(df_com_rec['Tamanho'], df_com_rec['Tempo DP (s)'], 
+             marker='o', linewidth=2.5, label='DP', color='blue')
+    plt.plot(df_com_rec['Tamanho'], df_com_rec['Tempo Rec (s)'], 
+             marker='s', linewidth=2.5, label='Recursivo', color='red')
+    
+    plt.xlabel('Tamanho da String', fontsize=12, fontweight='bold')
+    plt.ylabel('Tempo (segundos)', fontsize=12, fontweight='bold')
+    plt.title('Comparação de Tempo: DP vs Recursivo (Até Linha 17)', fontsize=14, fontweight='bold')
+    plt.legend(fontsize=11, loc='upper left')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(os.path.join(GRAFICOS_DIR, "11_comparacao_tempo_dp_vs_rec_limitado.png"), dpi=300)
+    print("✅ Gráfico '11_comparacao_tempo_dp_vs_rec_limitado.png' salvo")
+    plt.close()
+    
+def plotar_comparacao_memoria_dp_vs_rec_limitado(df):
+    """Plota comparação de uso de memória DP vs Recursivo (primeiras 17 linhas)."""
+    df_limitado = df.iloc[:17].copy()
+    df_com_rec = df_limitado[df_limitado['Mem Rec Estimada (MB)'] != 'N/A'].copy()
+    
+    if df_com_rec.empty:
+        print("⚠️ Sem dados: Comparação Memória DP vs Rec (limitado)")
+        return
+    
+    df_com_rec['Mem Rec Estimada (MB)'] = df_com_rec['Mem Rec Estimada (MB)'].astype(float)
+    df_com_rec['Mem DP (MB)'] = df_com_rec['Mem DP (MB)'].astype(float)
+    
+    plt.figure(figsize=(12, 7))
+    plt.plot(df_com_rec['Tamanho'], df_com_rec['Mem DP (MB)'], 
+             marker='o', linewidth=2.5, label='DP', color='green')
+    plt.plot(df_com_rec['Tamanho'], df_com_rec['Mem Rec Estimada (MB)'], 
+             marker='s', linewidth=2.5, label='Recursivo', color='orange')
+    
+    plt.xlabel('Tamanho da String', fontsize=12, fontweight='bold')
+    plt.ylabel('Memória (MB)', fontsize=12, fontweight='bold')
+    plt.title('Comparação de Uso de Memória: DP vs Recursivo (Até Linha 17)', fontsize=14, fontweight='bold')
+    plt.legend(fontsize=11, loc='upper left')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(os.path.join(GRAFICOS_DIR, "12_comparacao_memoria_dp_vs_rec_limitado.png"), dpi=300)
+    print("✅ Gráfico '12_comparacao_memoria_dp_vs_rec_limitado.png' salvo")
+    plt.close()
+
 # ========================
 # EXECUÇÃO PRINCIPAL
 # ========================
@@ -244,6 +300,8 @@ def plotar_todos_graficos():
     plotar_chamadas_rec(df)
     plotar_razao_crescimento_rec(df)
     plotar_comparacao_tempo_dp_vs_rec(df)
+    plotar_comparacao_tempo_dp_vs_rec_limitado(df)
+    plotar_comparacao_memoria_dp_vs_rec_limitado(df)
     
     print("\n✅ Todos os gráficos foram gerados com sucesso!")
 

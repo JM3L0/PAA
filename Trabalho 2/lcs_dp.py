@@ -27,20 +27,16 @@ def lcs_reconstroi_string(X, Y, L):
 
     lcs_result = deque()
 
-    # Percorre a tabela L de trás para frente
     while i > 0 and j > 0:
         
-        # Se os caracteres casam, é um elemento da LCS
         if X[i-1] == Y[j-1]:
             lcs_result.appendleft(X[i-1])
             i -= 1
             j -= 1
         
-        # Se o valor de cima é maior, move para cima
         elif L[i-1][j] > L[i][j-1]:
             i -= 1
-        
-        # Caso contrário, move para a esquerda
+            
         else:
             j -= 1
     
