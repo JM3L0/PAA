@@ -300,39 +300,6 @@ def plotar_comparacao_memoria_dp_vs_rec(df):
     print("✅ Gráfico '13_comparacao_memoria_dp_vs_rec.png' salvo")
     plt.close()
     
-# def plotar_tabela(df):
-#     """Plota a tabela de resultados em formato visual."""
-#     fig, ax = plt.subplots(figsize=(16, 10))
-#     ax.axis('tight')
-#     ax.axis('off')
-    
-#     # Cria a tabela
-#     tabela = ax.table(cellText=df.values, colLabels=df.columns, 
-#                       cellLoc='center', loc='center', bbox=[0, 0, 1, 1])
-    
-#     tabela.auto_set_font_size(False)
-#     tabela.set_fontsize(9)
-#     tabela.scale(1, 2)
-    
-#     # Formata o header (cabeçalho)
-#     for i in range(len(df.columns)):
-#         tabela[(0, i)].set_facecolor('#4CAF50')
-#         tabela[(0, i)].set_text_props(weight='bold', color='white')
-    
-#     # Alterna cores nas linhas
-#     for i in range(1, len(df) + 1):
-#         for j in range(len(df.columns)):
-#             if i % 2 == 0:
-#                 tabela[(i, j)].set_facecolor('#f0f0f0')
-#             else:
-#                 tabela[(i, j)].set_facecolor('#ffffff')
-    
-#     plt.title('Tabela de Resultados LCS', fontsize=16, fontweight='bold', pad=20)
-#     plt.tight_layout()
-#     plt.savefig(os.path.join(GRAFICOS_DIR, "14_tabela_resultados.png"), dpi=300, bbox_inches='tight')
-#     print("✅ Gráfico '14_tabela_resultados.png' salvo")
-#     plt.close()
-    
 def plotar_tabela(df):
     """Plota a tabela de resultados em formato visual e legível."""
     fig, ax = plt.subplots(figsize=(28, 18))
@@ -345,6 +312,26 @@ def plotar_tabela(df):
     # Remove colunas de descrição e razão
     colunas_remover = [col for col in df_exibicao.columns if 'Descrição' in col or 'Razao' in col]
     df_exibicao = df_exibicao.drop(columns=colunas_remover)
+    
+    # Remove "Estimada" dos nomes das colunas
+    df_exibicao.columns = [col.replace(' Estimada', '') for col in df_exibicao.columns]
+    
+    # Formata valores muito pequenos (e-5) para reduzir casas decimais
+    # e corrige a coluna Comprimento LCS para mostrar como inteiro
+    colunas_inteiras = ['Comprimento LCS', 'Tamanho', 'Chamadas Rec']
+    
+    for col in df_exibicao.columns:
+        try:
+            if col in colunas_inteiras:
+                df_exibicao[col] = df_exibicao[col].apply(
+                    lambda x: str(int(float(x))) if isinstance(x, (int, float, str)) and str(x) != 'N/A' and str(x) != 'nan' else x
+                )
+            else:
+                df_exibicao[col] = df_exibicao[col].apply(
+                    lambda x: f"{float(x):.2e}" if isinstance(x, (int, float)) and abs(float(x)) < 0.0001 else x
+                )
+        except:
+            pass
     
     # Cria a tabela
     tabela = ax.table(cellText=df_exibicao.values, colLabels=df_exibicao.columns, 
