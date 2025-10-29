@@ -300,42 +300,42 @@ def plotar_comparacao_memoria_dp_vs_rec(df):
     print("✅ Gráfico '13_comparacao_memoria_dp_vs_rec.png' salvo")
     plt.close()
     
-def plotar_tabela(df):
-    """Plota a tabela de resultados em formato visual."""
-    fig, ax = plt.subplots(figsize=(16, 10))
-    ax.axis('tight')
-    ax.axis('off')
+# def plotar_tabela(df):
+#     """Plota a tabela de resultados em formato visual."""
+#     fig, ax = plt.subplots(figsize=(16, 10))
+#     ax.axis('tight')
+#     ax.axis('off')
     
-    # Cria a tabela
-    tabela = ax.table(cellText=df.values, colLabels=df.columns, 
-                      cellLoc='center', loc='center', bbox=[0, 0, 1, 1])
+#     # Cria a tabela
+#     tabela = ax.table(cellText=df.values, colLabels=df.columns, 
+#                       cellLoc='center', loc='center', bbox=[0, 0, 1, 1])
     
-    tabela.auto_set_font_size(False)
-    tabela.set_fontsize(9)
-    tabela.scale(1, 2)
+#     tabela.auto_set_font_size(False)
+#     tabela.set_fontsize(9)
+#     tabela.scale(1, 2)
     
-    # Formata o header (cabeçalho)
-    for i in range(len(df.columns)):
-        tabela[(0, i)].set_facecolor('#4CAF50')
-        tabela[(0, i)].set_text_props(weight='bold', color='white')
+#     # Formata o header (cabeçalho)
+#     for i in range(len(df.columns)):
+#         tabela[(0, i)].set_facecolor('#4CAF50')
+#         tabela[(0, i)].set_text_props(weight='bold', color='white')
     
-    # Alterna cores nas linhas
-    for i in range(1, len(df) + 1):
-        for j in range(len(df.columns)):
-            if i % 2 == 0:
-                tabela[(i, j)].set_facecolor('#f0f0f0')
-            else:
-                tabela[(i, j)].set_facecolor('#ffffff')
+#     # Alterna cores nas linhas
+#     for i in range(1, len(df) + 1):
+#         for j in range(len(df.columns)):
+#             if i % 2 == 0:
+#                 tabela[(i, j)].set_facecolor('#f0f0f0')
+#             else:
+#                 tabela[(i, j)].set_facecolor('#ffffff')
     
-    plt.title('Tabela de Resultados LCS', fontsize=16, fontweight='bold', pad=20)
-    plt.tight_layout()
-    plt.savefig(os.path.join(GRAFICOS_DIR, "14_tabela_resultados.png"), dpi=300, bbox_inches='tight')
-    print("✅ Gráfico '14_tabela_resultados.png' salvo")
-    plt.close()
+#     plt.title('Tabela de Resultados LCS', fontsize=16, fontweight='bold', pad=20)
+#     plt.tight_layout()
+#     plt.savefig(os.path.join(GRAFICOS_DIR, "14_tabela_resultados.png"), dpi=300, bbox_inches='tight')
+#     print("✅ Gráfico '14_tabela_resultados.png' salvo")
+#     plt.close()
     
 def plotar_tabela(df):
     """Plota a tabela de resultados em formato visual e legível."""
-    fig, ax = plt.subplots(figsize=(20, 12))
+    fig, ax = plt.subplots(figsize=(28, 18))
     ax.axis('tight')
     ax.axis('off')
     
@@ -351,13 +351,13 @@ def plotar_tabela(df):
                       cellLoc='center', loc='center', bbox=[0, 0, 1, 1])
     
     tabela.auto_set_font_size(False)
-    tabela.set_fontsize(10)
-    tabela.scale(1, 2.5)
+    tabela.set_fontsize(17)
+    tabela.scale(1, 4.2)
     
     # Formata o header (cabeçalho)
     for i in range(len(df_exibicao.columns)):
         tabela[(0, i)].set_facecolor('#2196F3')
-        tabela[(0, i)].set_text_props(weight='bold', color='white', fontsize=11)
+        tabela[(0, i)].set_text_props(weight='bold', color='white', fontsize=19)
     
     # Alterna cores nas linhas para melhor legibilidade
     for i in range(1, len(df_exibicao) + 1):
@@ -366,14 +366,14 @@ def plotar_tabela(df):
                 tabela[(i, j)].set_facecolor('#E3F2FD')
             else:
                 tabela[(i, j)].set_facecolor('#FFFFFF')
-            tabela[(i, j)].set_text_props(fontsize=10)
+            tabela[(i, j)].set_text_props(weight='bold', fontsize=17)
     
-    plt.title('Tabela de Resultados LCS (Primeiras 20 linhas)', fontsize=16, fontweight='bold', pad=20)
+    plt.title('Tabela de Resultados LCS (Primeiras 20 linhas)', fontsize=22, fontweight='bold', pad=20)
     plt.tight_layout()
     plt.savefig(os.path.join(GRAFICOS_DIR, "14_tabela_resultados.png"), dpi=300, bbox_inches='tight')
     print("✅ Gráfico '14_tabela_resultados.png' salvo")
     plt.close()
-
+    
 # ========================
 # EXECUÇÃO PRINCIPAL
 # ========================
