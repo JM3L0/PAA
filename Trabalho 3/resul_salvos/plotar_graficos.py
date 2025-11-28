@@ -13,9 +13,10 @@ def carregar_dados():
     return pd.read_csv(RESULT_FILE)
 
 def plotar_tempo(df):
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
     plt.plot(df['N'], df['Tempo BT (s)'], marker='o', linewidth=2, label='Backtracking')
-    plt.plot(df['N'], df['Tempo Guloso (s)'], marker='s', linewidth=2, label='Guloso')
+    plt.plot(df['N'], df['Tempo Guloso Simples (s)'], marker='s', linewidth=2, label='Guloso Simples')
+    plt.plot(df['N'], df['Tempo Guloso Restart (s)'], marker='^', linewidth=2, label='Guloso Restart')
     plt.xlabel('N', fontsize=12)
     plt.ylabel('Tempo (s)', fontsize=12)
     plt.title('Comparacao de Tempo', fontsize=14, fontweight='bold')
@@ -27,9 +28,10 @@ def plotar_tempo(df):
     plt.close()
 
 def plotar_memoria(df):
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
     plt.plot(df['N'], df['Mem BT (MB)'], marker='o', linewidth=2, label='Backtracking')
-    plt.plot(df['N'], df['Mem Guloso (MB)'], marker='s', linewidth=2, label='Guloso')
+    plt.plot(df['N'], df['Mem Guloso Simples (MB)'], marker='s', linewidth=2, label='Guloso Simples')
+    plt.plot(df['N'], df['Mem Guloso Restart (MB)'], marker='^', linewidth=2, label='Guloso Restart')
     plt.xlabel('N', fontsize=12)
     plt.ylabel('Memoria (MB)', fontsize=12)
     plt.title('Comparacao de Memoria', fontsize=14, fontweight='bold')
@@ -53,9 +55,10 @@ def plotar_solucoes(df):
     plt.close()
 
 def plotar_tempo_log(df):
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
     plt.semilogy(df['N'], df['Tempo BT (s)'], marker='o', linewidth=2, label='Backtracking')
-    plt.semilogy(df['N'], df['Tempo Guloso (s)'], marker='s', linewidth=2, label='Guloso')
+    plt.semilogy(df['N'], df['Tempo Guloso Simples (s)'], marker='s', linewidth=2, label='Guloso Simples')
+    plt.semilogy(df['N'], df['Tempo Guloso Restart (s)'], marker='^', linewidth=2, label='Guloso Restart')
     plt.xlabel('N', fontsize=12)
     plt.ylabel('Tempo (s) - Log', fontsize=12)
     plt.title('Tempo (Escala Logaritmica)', fontsize=14, fontweight='bold')
@@ -66,30 +69,97 @@ def plotar_tempo_log(df):
     print("Grafico '04_tempo_log.png' salvo")
     plt.close()
 
-def plotar_sucesso_guloso(df):
-    # Verifica qual coluna existe no CSV
-    col_valido = None
-    for col in df.columns:
-        if 'Valido' in col or 'valido' in col.lower():
-            col_valido = col
-            break
+def plotar_sucesso_gulosos(df):
+    df['Sucesso Simples'] = df['Guloso Simples Valido'].apply(lambda x: 100 if x else 0)
+    df['Sucesso Restart'] = df['Guloso Restart Valido'].apply(lambda x: 100 if x else 0)
     
-    if col_valido:
-        df['Sucesso'] = df[col_valido].apply(lambda x: 100 if str(x).lower() == 'sim' else 0)
-    else:
-        # Se não encontrar, assume todos válidos
-        df['Sucesso'] = 100
+    x = range(len(df))
+    largura = 0.35
     
-    plt.figure(figsize=(10, 6))
-    plt.bar(df['N'], df['Sucesso'], color='orange', alpha=0.7, edgecolor='black')
+    plt.figure(figsize=(12, 6))
+    plt.bar([i - largura/2 for i in x], df['Sucesso Simples'], largura, 
+            label='Guloso Simples', alpha=0.8, color='orange', edgecolor='black')
+    plt.bar([i + largura/2 for i in x], df['Sucesso Restart'], largura, 
+            label='Guloso Restart', alpha=0.8, color='green', edgecolor='black')
+    
     plt.xlabel('N', fontsize=12)
     plt.ylabel('Taxa de Sucesso (%)', fontsize=12)
-    plt.title('Taxa de Sucesso do Algoritmo Guloso', fontsize=14, fontweight='bold')
+    plt.title('Taxa de Sucesso dos Algoritmos Gulosos', fontsize=14, fontweight='bold')
+    plt.xticks(x, df['N'])
     plt.ylim(0, 110)
+    plt.legend()
     plt.grid(True, alpha=0.3, axis='y')
     plt.tight_layout()
-    plt.savefig(os.path.join(GRAFICOS_DIR, "05_sucesso_guloso.png"), dpi=300)
-    print("Grafico '05_sucesso_guloso.png' salvo")
+    plt.savefig(os.path.join(GRAFICOS_DIR, "05_sucesso_gulosos.png"), dpi=300)
+    print("Grafico '05_sucesso_gulosos.png' salvo")
+    plt.close()
+
+def plotar_comparacao_gulosos(df):
+    plt.figure(figsize=(12, 6))
+    plt.plot(df['N'], df['Tempo Guloso Simples (s)'], marker='s', linewidth=2, label='Guloso Simples')
+    plt.plot(df['N'], df['Tempo Guloso Restart (s)'], marker='^', linewidth=2, label='Guloso Restart')
+    plt.xlabel('N', fontsize=12)
+    plt.ylabel('Tempo (s)', fontsize=12)
+    plt.title('Comparacao entre Gulosos', fontsize=14, fontweight='bold')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(os.path.join(GRAFICOS_DIR, "06_comparacao_gulosos.png"), dpi=300)
+    print("Grafico '06_comparacao_gulosos.png' salvo")
+    plt.close()
+
+def plotar_tabela(df):
+    fig, ax = plt.subplots(figsize=(16, 10))
+    ax.axis('tight')
+    ax.axis('off')
+    
+    # Seleciona apenas colunas sem sucesso
+    df_display = df[['N', 'Num Solucoes BT', 'Tempo BT (s)', 'Mem BT (MB)', 
+                     'Tempo Guloso Simples (s)', 'Mem Guloso Simples (MB)',
+                     'Tempo Guloso Restart (s)', 'Mem Guloso Restart (MB)']].copy()
+    
+    # Renomeia colunas
+    df_display = df_display.rename(columns={
+        'N': 'N',
+        'Num Solucoes BT': 'Solucoes',
+        'Tempo BT (s)': 'T_BT (s)',
+        'Mem BT (MB)': 'M_BT (MB)',
+        'Tempo Guloso Simples (s)': 'T_Simples (s)',
+        'Mem Guloso Simples (MB)': 'M_Simples (MB)',
+        'Tempo Guloso Restart (s)': 'T_Restart (s)',
+        'Mem Guloso Restart (MB)': 'M_Restart (MB)'
+    })
+    
+    # Formata os dados
+    df_display['T_BT (s)'] = df_display['T_BT (s)'].apply(lambda x: f'{x:.6f}')
+    df_display['T_Simples (s)'] = df_display['T_Simples (s)'].apply(lambda x: f'{x:.6f}')
+    df_display['T_Restart (s)'] = df_display['T_Restart (s)'].apply(lambda x: f'{x:.6f}')
+    df_display['M_BT (MB)'] = df_display['M_BT (MB)'].apply(lambda x: f'{x:.4f}')
+    df_display['M_Simples (MB)'] = df_display['M_Simples (MB)'].apply(lambda x: f'{x:.4f}')
+    df_display['M_Restart (MB)'] = df_display['M_Restart (MB)'].apply(lambda x: f'{x:.4f}')
+    
+    table = ax.table(cellText=df_display.values, colLabels=df_display.columns,
+                     cellLoc='center', loc='center')
+    
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
+    table.scale(1, 2.5)
+    
+    # Estiliza header
+    for i in range(len(df_display.columns)):
+        table[(0, i)].set_facecolor('#4CAF50')
+        table[(0, i)].set_text_props(weight='bold', color='white')
+    
+    # Estiliza linhas alternadas
+    for i in range(1, len(df_display) + 1):
+        for j in range(len(df_display.columns)):
+            if i % 2 == 0:
+                table[(i, j)].set_facecolor('#f0f0f0')
+    
+    plt.title('Tabela de Resultados - N Rainhas', fontsize=18, fontweight='bold', pad=20)
+    plt.tight_layout()
+    plt.savefig(os.path.join(GRAFICOS_DIR, "07_tabela_resultados.png"), dpi=300, bbox_inches='tight')
+    print("Grafico '07_tabela_resultados.png' salvo")
     plt.close()
 
 def main():
@@ -101,7 +171,9 @@ def main():
     plotar_memoria(df)
     plotar_solucoes(df)
     plotar_tempo_log(df)
-    plotar_sucesso_guloso(df)
+    plotar_sucesso_gulosos(df)
+    plotar_comparacao_gulosos(df)
+    plotar_tabela(df)
     
     print("\n=== Graficos gerados ===")
 
