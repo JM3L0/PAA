@@ -5,6 +5,8 @@ import gc
 import sys
 import os
 
+TAMANHOS_TESTE = 12
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import n_rainhas_backtracking
 import n_rainhas_guloso
@@ -53,7 +55,8 @@ def medir_guloso_com_restart(n):
     return valido, tempo, pico / (1024 ** 2)
 
 def executar_testes():
-    tamanhos = [4, 5, 6, 7, 8, 9, 10, 11, 12]
+    
+    tamanhos = list(range(1, TAMANHOS_TESTE + 1))
     resultados = []
     
     print("=== Teste Backtracking vs Guloso Simples vs Guloso com Restart ===\n")
