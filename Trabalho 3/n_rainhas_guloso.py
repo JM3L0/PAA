@@ -20,6 +20,9 @@ def n_rainhas_guloso_simples(n):
         tabuleiro[linha] = melhor
     return tabuleiro
 
+
+# ============ Guloso com Restart ============
+
 def n_rainhas_guloso_com_restart(n, max_tentativas=100):
     for _ in range(max_tentativas):
         tabuleiro = [-1] * n

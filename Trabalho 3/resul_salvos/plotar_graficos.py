@@ -108,6 +108,60 @@ def plotar_comparacao_gulosos(df):
     print("Grafico '06_comparacao_gulosos.png' salvo")
     plt.close()
 
+def plotar_tabuleiro(tabuleiro, titulo, nome_arquivo):
+    n = len(tabuleiro)
+    fig, ax = plt.subplots(figsize=(8, 8))
+    
+    # Cria tabuleiro xadrez
+    for i in range(n):
+        for j in range(n):
+            cor = 'white' if (i + j) % 2 == 0 else 'lightgray'
+            ax.add_patch(plt.Rectangle((j, n-1-i), 1, 1, facecolor=cor, edgecolor='black'))
+    
+    # Coloca rainhas
+    for linha, coluna in enumerate(tabuleiro):
+        if coluna != -1:
+            ax.text(coluna + 0.5, n - linha - 0.5, '♛', 
+                   fontsize=60//n*8, ha='center', va='center', color='red', weight='bold')
+    
+    ax.set_xlim(0, n)
+    ax.set_ylim(0, n)
+    ax.set_aspect('equal')
+    ax.axis('off')
+    plt.title(titulo, fontsize=16, fontweight='bold', pad=10)
+    plt.tight_layout()
+    plt.savefig(os.path.join(GRAFICOS_DIR, nome_arquivo), dpi=300, bbox_inches='tight')
+    plt.close()
+
+def plotar_exemplos_tabuleiros():
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+    import n_rainhas_backtracking
+    import n_rainhas_guloso
+    
+    n = 8
+    
+    # Backtracking - primeira solução
+    solucoes_bt = n_rainhas_backtracking.n_rainhas_backtracking(n)
+    if solucoes_bt:
+        plotar_tabuleiro(solucoes_bt[0], f'Backtracking - N={n} (1ª Solucao)', '08_tabuleiro_backtracking.png')
+        print("Grafico '08_tabuleiro_backtracking.png' salvo")
+    
+    # Guloso Simples
+    tabuleiro_simples = n_rainhas_guloso.n_rainhas_guloso_simples(n)
+    valido_s = n_rainhas_guloso.eh_valido(tabuleiro_simples)
+    titulo_s = f'Guloso Simples - N={n} ({"Valido" if valido_s else "Invalido"})'
+    plotar_tabuleiro(tabuleiro_simples, titulo_s, '09_tabuleiro_guloso_simples.png')
+    print("Grafico '09_tabuleiro_guloso_simples.png' salvo")
+    
+    # Guloso com Restart
+    tabuleiro_restart = n_rainhas_guloso.n_rainhas_guloso_com_restart(n)
+    valido_r = n_rainhas_guloso.eh_valido(tabuleiro_restart)
+    titulo_r = f'Guloso com Restart - N={n} ({"Valido" if valido_r else "Invalido"})'
+    plotar_tabuleiro(tabuleiro_restart, titulo_r, '10_tabuleiro_guloso_restart.png')
+    print("Grafico '10_tabuleiro_guloso_restart.png' salvo")
+
 def plotar_tabela(df):
     fig, ax = plt.subplots(figsize=(16, 10))
     ax.axis('tight')
@@ -174,6 +228,7 @@ def main():
     plotar_sucesso_gulosos(df)
     plotar_comparacao_gulosos(df)
     plotar_tabela(df)
+    plotar_exemplos_tabuleiros()
     
     print("\n=== Graficos gerados ===")
 
