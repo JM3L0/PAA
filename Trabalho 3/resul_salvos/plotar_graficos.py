@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-RESULT_FILE = os.path.join(os.path.dirname(__file__), "tabela_resultados_n_rainhas.csv")
+RESULT_FILE = os.path.join(os.path.dirname(__file__), "..", "resultados", "tabela_resultados_n_rainhas.csv")
 GRAFICOS_DIR = os.path.join(os.path.dirname(__file__), "graficos")
 
 def criar_diretorio():
@@ -66,16 +66,30 @@ def plotar_tempo_log(df):
     print("Grafico '04_tempo_log.png' salvo")
     plt.close()
 
-def plotar_razao(df):
+def plotar_sucesso_guloso(df):
+    # Verifica qual coluna existe no CSV
+    col_valido = None
+    for col in df.columns:
+        if 'Valido' in col or 'valido' in col.lower():
+            col_valido = col
+            break
+    
+    if col_valido:
+        df['Sucesso'] = df[col_valido].apply(lambda x: 100 if str(x).lower() == 'sim' else 0)
+    else:
+        # Se não encontrar, assume todos válidos
+        df['Sucesso'] = 100
+    
     plt.figure(figsize=(10, 6))
-    plt.plot(df['N'], df['Razao Tempo (BT/Guloso)'], marker='o', linewidth=2, color='purple')
+    plt.bar(df['N'], df['Sucesso'], color='orange', alpha=0.7, edgecolor='black')
     plt.xlabel('N', fontsize=12)
-    plt.ylabel('Razao Tempo (BT/Guloso)', fontsize=12)
-    plt.title('Razao de Tempo: Backtracking / Guloso', fontsize=14, fontweight='bold')
-    plt.grid(True, alpha=0.3)
+    plt.ylabel('Taxa de Sucesso (%)', fontsize=12)
+    plt.title('Taxa de Sucesso do Algoritmo Guloso', fontsize=14, fontweight='bold')
+    plt.ylim(0, 110)
+    plt.grid(True, alpha=0.3, axis='y')
     plt.tight_layout()
-    plt.savefig(os.path.join(GRAFICOS_DIR, "05_razao_tempo.png"), dpi=300)
-    print("Grafico '05_razao_tempo.png' salvo")
+    plt.savefig(os.path.join(GRAFICOS_DIR, "05_sucesso_guloso.png"), dpi=300)
+    print("Grafico '05_sucesso_guloso.png' salvo")
     plt.close()
 
 def main():
@@ -87,7 +101,7 @@ def main():
     plotar_memoria(df)
     plotar_solucoes(df)
     plotar_tempo_log(df)
-    plotar_razao(df)
+    plotar_sucesso_guloso(df)
     
     print("\n=== Graficos gerados ===")
 
