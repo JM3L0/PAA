@@ -56,7 +56,7 @@ def medir_guloso_com_restart(n):
 
 def executar_testes():
     
-    tamanhos = list(range(1, TAMANHOS_TESTE + 1))
+    tamanhos = list(range(4, TAMANHOS_TESTE + 1))
     resultados = []
     
     print("=== Teste Backtracking vs Guloso Simples vs Guloso com Restart ===\n")
