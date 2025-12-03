@@ -5,7 +5,7 @@ import gc
 import sys
 import os
 
-TAMANHOS_TESTE = 12
+TAMANHOS_TESTE = 13
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 import n_rainhas_backtracking
