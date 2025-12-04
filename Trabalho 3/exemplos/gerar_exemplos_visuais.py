@@ -29,9 +29,9 @@ def desenhar_tabuleiro(tabuleiro, n, titulo, passo, pasta_saida,
         conflitos: Lista de tuplas (linha, coluna) em conflito
         seta_texto: Texto para exibir com seta apontando
     """
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
-    ax.set_xlim(-0.5, n + 0.5)
-    ax.set_ylim(-0.5, n + 0.5)
+    fig, ax = plt.subplots(1, 1, figsize=(12, 13))
+    ax.set_xlim(-0.18, n)
+    ax.set_ylim(-0.5, n + 0.25)
     ax.set_aspect('equal')
     ax.axis('off')
     
@@ -70,7 +70,7 @@ def desenhar_tabuleiro(tabuleiro, n, titulo, passo, pasta_saida,
         if tabuleiro[i] != -1:
             # Rainha na posição (i, tabuleiro[i])
             ax.text(tabuleiro[i] + 0.5, n - 1 - i + 0.5, '♛', 
-                   fontsize=70, ha='center', va='center', color='#8B0000', 
+                   fontsize=110, ha='center', va='center', color='#8B0000', 
                    fontweight='bold')
     
     # Desenha seta apontando para a posição escolhida
@@ -84,59 +84,54 @@ def desenhar_tabuleiro(tabuleiro, n, titulo, passo, pasta_saida,
             mutation_scale=25
         )
         ax.add_patch(arrow)
-        if seta_texto:
-            ax.text(coluna + 0.5, n - 1 - linha + 2.4, seta_texto,
-                   fontsize=14, ha='center', va='bottom', color='green',
-                   fontweight='bold', bbox=dict(boxstyle='round,pad=0.5', 
-                   facecolor='white', edgecolor='green', linewidth=2))
     
     # Adiciona legenda visual
-    legenda_y = -0.5
+    legenda_y = -0.45
     if candidatos or posicao_analisada or escolhida or conflitos:
         legenda_items = []
         legenda_x = 0
         
         if posicao_analisada:
-            rect = patches.Rectangle((legenda_x, legenda_y), 0.4, 0.4, 
+            rect = patches.Rectangle((legenda_x, legenda_y), 0.38, 0.38, 
                                     facecolor='#87CEEB', edgecolor='black', linewidth=2)
             ax.add_patch(rect)
-            ax.text(legenda_x + 0.5, legenda_y + 0.2, 'Analisando', 
-                   fontsize=12, va='center')
-            legenda_x += 2.0
+            ax.text(legenda_x + 0.48, legenda_y + 0.19, 'Analisando', 
+                   fontsize=11, va='center')
+            legenda_x += 1.8
         
         if candidatos:
-            rect = patches.Rectangle((legenda_x, legenda_y), 0.4, 0.4, 
+            rect = patches.Rectangle((legenda_x, legenda_y), 0.38, 0.38, 
                                     facecolor='#FFEB99', edgecolor='black', linewidth=2)
             ax.add_patch(rect)
-            ax.text(legenda_x + 0.5, legenda_y + 0.2, 'Candidatas', 
-                   fontsize=12, va='center')
-            legenda_x += 2.0
+            ax.text(legenda_x + 0.48, legenda_y + 0.19, 'Candidatas', 
+                   fontsize=11, va='center')
+            legenda_x += 1.8
         
         if escolhida:
-            rect = patches.Rectangle((legenda_x, legenda_y), 0.4, 0.4, 
+            rect = patches.Rectangle((legenda_x, legenda_y), 0.38, 0.38, 
                                     facecolor='#90EE90', edgecolor='black', linewidth=2)
             ax.add_patch(rect)
-            ax.text(legenda_x + 0.5, legenda_y + 0.2, 'Escolhida', 
-                   fontsize=12, va='center')
-            legenda_x += 2.0
+            ax.text(legenda_x + 0.48, legenda_y + 0.19, 'Escolhida', 
+                   fontsize=11, va='center')
+            legenda_x += 1.8
         
         if conflitos:
-            rect = patches.Rectangle((legenda_x, legenda_y), 0.4, 0.4, 
+            rect = patches.Rectangle((legenda_x, legenda_y), 0.38, 0.38, 
                                     facecolor='#FFB6C6', edgecolor='black', linewidth=2)
             ax.add_patch(rect)
-            ax.text(legenda_x + 0.5, legenda_y + 0.2, 'Conflito', 
-                   fontsize=12, va='center')
+            ax.text(legenda_x + 0.48, legenda_y + 0.19, 'Conflito', 
+                   fontsize=11, va='center')
     
     # Adiciona números de linhas e colunas
     for i in range(n):
-        ax.text(-0.3, n - 1 - i + 0.5, str(i), fontsize=12, ha='center', va='center', fontweight='bold')
-        ax.text(i + 0.5, n + 0.2, str(i), fontsize=12, ha='center', va='center', fontweight='bold')
+        ax.text(-0.10, n - 1 - i + 0.5, str(i), fontsize=16, ha='center', va='center', fontweight='bold')
+        ax.text(i + 0.5, n + 0.10, str(i), fontsize=16, ha='center', va='center', fontweight='bold')
     
     ax.set_title(titulo, fontsize=16, fontweight='bold', pad=20)
     
-    # Salva a imagem
+    # Salva a imagem com dimensões fixas
     nome_arquivo = os.path.join(pasta_saida, f'passo_{passo:03d}.png')
-    plt.savefig(nome_arquivo, bbox_inches='tight', dpi=150)
+    plt.savefig(nome_arquivo, dpi=150)
     plt.close()
     
     return nome_arquivo
@@ -210,8 +205,7 @@ def gerar_exemplos_backtracking(n=4):
                 
                 titulo = f'Backtracking - Passo {passo[0]}\n✓ Rainha colocada na linha {linha}, coluna {coluna}\nTabuleiro: {tabuleiro[:linha+1]}'
                 arquivo = desenhar_tabuleiro(tabuleiro, n, titulo, passo[0], pasta_saida,
-                                            escolhida=(linha, coluna),
-                                            seta_texto='Colocada!')
+                                            escolhida=(linha, coluna))
                 print(f"Passo {passo[0]:3d}: Colocando rainha na linha {linha}, coluna {coluna} -> {arquivo}")
                 
                 if backtracking_visualizar(linha + 1):
@@ -292,8 +286,7 @@ def gerar_exemplos_guloso_simples(n=4):
         passo += 1
         titulo = f'Guloso Simples - Passo {passo}\n✓ Rainha colocada na linha {linha}, coluna {melhor}\nTabuleiro: {tabuleiro[:linha+1]}'
         arquivo = desenhar_tabuleiro(tabuleiro, n, titulo, passo, pasta_saida,
-                                    escolhida=(linha, melhor),
-                                    seta_texto=f'Escolhida!\n{menor} conflitos')
+                                    escolhida=(linha, melhor))
         print(f"Passo {passo:3d}: Rainha colocada na linha {linha}, coluna {melhor} -> {arquivo}")
     
     # Estado final
@@ -382,8 +375,7 @@ def gerar_exemplos_guloso_restart(n=4):
             passo_global += 1
             titulo = f'Guloso Restart - Passo {passo_global} (T{tentativa + 1})\n✓ Rainha colocada na linha {linha}, coluna {escolhido}\nTabuleiro: {tabuleiro[:linha+1]}'
             arquivo = desenhar_tabuleiro(tabuleiro, n, titulo, passo_global, pasta_saida,
-                                        escolhida=(linha, escolhido),
-                                        seta_texto=f'Aleatória!\n{menor} conflitos')
+                                        escolhida=(linha, escolhido))
             print(f"Passo {passo_global:3d}: T{tentativa + 1} - Rainha na linha {linha}, coluna {escolhido} -> {arquivo}")
         
         # Verifica se é válido
