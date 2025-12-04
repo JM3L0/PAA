@@ -70,22 +70,24 @@ def plotar_tempo_log(df):
     plt.close()
 
 def plotar_sucesso_gulosos(df):
-    df['Sucesso Simples'] = df['Guloso Simples Valido'].apply(lambda x: 100 if x else 0)
-    df['Sucesso Restart'] = df['Guloso Restart Valido'].apply(lambda x: 100 if x else 0)
+    # Cria uma cópia para não modificar o DataFrame original
+    df_temp = df.copy()
+    df_temp['Sucesso Simples'] = df_temp['Guloso Simples Valido'].apply(lambda x: 100 if x else 0)
+    df_temp['Sucesso Restart'] = df_temp['Guloso Restart Valido'].apply(lambda x: 100 if x else 0)
     
-    x = range(len(df))
+    x = range(len(df_temp))
     largura = 0.35
     
     plt.figure(figsize=(12, 6))
-    plt.bar([i - largura/2 for i in x], df['Sucesso Simples'], largura, 
+    plt.bar([i - largura/2 for i in x], df_temp['Sucesso Simples'], largura, 
             label='Guloso Simples', alpha=0.8, color='orange', edgecolor='black')
-    plt.bar([i + largura/2 for i in x], df['Sucesso Restart'], largura, 
+    plt.bar([i + largura/2 for i in x], df_temp['Sucesso Restart'], largura, 
             label='Guloso Restart', alpha=0.8, color='green', edgecolor='black')
     
     plt.xlabel('N', fontsize=12)
     plt.ylabel('Taxa de Sucesso (%)', fontsize=12)
     plt.title('Taxa de Sucesso dos Algoritmos Gulosos', fontsize=14, fontweight='bold')
-    plt.xticks(x, df['N'])
+    plt.xticks(x, df_temp['N'])
     plt.ylim(0, 110)
     plt.legend()
     plt.grid(True, alpha=0.3, axis='y')
@@ -122,7 +124,7 @@ def plotar_tabuleiro(tabuleiro, titulo, nome_arquivo):
     for linha, coluna in enumerate(tabuleiro):
         if coluna != -1:
             ax.text(coluna + 0.5, n - linha - 0.5, '♛', 
-                   fontsize=60//n*8, ha='center', va='center', color='red', weight='bold')
+                   fontsize=60//n*8, ha='center', va='center', color='black', weight='bold')
     
     ax.set_xlim(0, n)
     ax.set_ylim(0, n)
@@ -140,27 +142,27 @@ def plotar_exemplos_tabuleiros():
     import n_rainhas_backtracking
     import n_rainhas_guloso
     
-    n = 8
+    n = 4
     
     # Backtracking - primeira solução
     solucoes_bt = n_rainhas_backtracking.n_rainhas_backtracking(n)
     if solucoes_bt:
-        plotar_tabuleiro(solucoes_bt[0], f'Backtracking - N={n} (1ª Solucao)', '08_tabuleiro_backtracking.png')
-        print("Grafico '08_tabuleiro_backtracking.png' salvo")
+        plotar_tabuleiro(solucoes_bt[0], f'Backtracking - N={n} (1ª Solucao)', f'08_tabuleiro_backtracking.png')
+        print(f"Grafico '08_tabuleiro_backtracking.png' salvo")
     
     # Guloso Simples
     tabuleiro_simples = n_rainhas_guloso.n_rainhas_guloso_simples(n)
     valido_s = n_rainhas_guloso.eh_valido(tabuleiro_simples)
     titulo_s = f'Guloso Simples - N={n} ({"Valido" if valido_s else "Invalido"})'
-    plotar_tabuleiro(tabuleiro_simples, titulo_s, '09_tabuleiro_guloso_simples.png')
-    print("Grafico '09_tabuleiro_guloso_simples.png' salvo")
+    plotar_tabuleiro(tabuleiro_simples, titulo_s, f'09_tabuleiro_guloso_simples.png')
+    print(f"Grafico '09_tabuleiro_guloso_simples.png' salvo")
     
     # Guloso com Restart
     tabuleiro_restart = n_rainhas_guloso.n_rainhas_guloso_com_restart(n)
     valido_r = n_rainhas_guloso.eh_valido(tabuleiro_restart)
     titulo_r = f'Guloso com Restart - N={n} ({"Valido" if valido_r else "Invalido"})'
-    plotar_tabuleiro(tabuleiro_restart, titulo_r, '10_tabuleiro_guloso_restart.png')
-    print("Grafico '10_tabuleiro_guloso_restart.png' salvo")
+    plotar_tabuleiro(tabuleiro_restart, titulo_r, f'10_tabuleiro_guloso_restart.png')
+    print(f"Grafico '10_tabuleiro_guloso_restart.png' salvo")
 
 def plotar_tabela(df):
     fig, ax = plt.subplots(figsize=(16, 10))
